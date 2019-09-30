@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import kim.kohlhaas.sone.javafx.control.SpectrogramViewer?>
+<?import kim.kohlhaas.sone.javafx.control.Spectrum?>
+<?import kim.kohlhaas.sone.javafx.control.WaveScroll?>
+<?import kim.kohlhaas.sone.tabscribe.javafx.control.BeatBar?>
+<?import kim.kohlhaas.sone.tabscribe.javafx.control.TabTimeLine?>
+
+<VBox stylesheets="@main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kim.kohlhaas.sone.tabscribe.javafx.MainController">
+   <children>
+      <MenuBar fx:id="menuBar">
+        <menus>
+          <Menu mnemonicParsing="false" text="%menu_file">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#onMenuOpenFile" text="%menu_file_open" />
+                  <MenuItem mnemonicParsing="false" onAction="#onMenuOpenSession" text="%menu_file_open_session" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="menuItemSaveSession" disable="true" mnemonicParsing="false" onAction="#onMenuSaveSession" text="%menu_file_save_session" />
+                  <MenuItem fx:id="menuItemSaveSessionAs" disable="true" mnemonicParsing="false" onAction="#onMenuSaveSessionAs" text="%menu_file_save_session_as" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#onMenuExit" text="%menu_file_exit" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <BorderPane fx:id="root" disable="true" prefHeight="720.0" prefWidth="1280.0" stylesheets="@main.css" VBox.vgrow="ALWAYS">
+         <top>
+            <VBox fx:id="paneTop" BorderPane.alignment="CENTER">
+               <children>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0">
+                     <items>
+                        <ToggleButton fx:id="playButton" mnemonicParsing="false" onMouseReleased="#togglePlayButton">
+                           <tooltip>
+                              <Tooltip text="%command_play" />
+                           </tooltip>
+                        </ToggleButton>
+                        <ToggleButton fx:id="wsola1o8FilterButton" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" text="×⅛">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="wsolaToggleGroup" />
+                           </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="wsola1o4FilterButton" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" text="×¼" toggleGroup="$wsolaToggleGroup" />
+                        <ToggleButton fx:id="wsola1o3FilterButton" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" text="×⅓" toggleGroup="$wsolaToggleGroup" />
+                        <ToggleButton fx:id="wsola1o2FilterButton" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" text="×½" toggleGroup="$wsolaToggleGroup" />
+                        <ToggleButton fx:id="wsola2o3FilterButton" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" text="×⅔" toggleGroup="$wsolaToggleGroup" />
+                        <ToggleButton fx:id="wsola3o4FilterButton" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" text="×¾" toggleGroup="$wsolaToggleGroup" />
+                        <ToggleButton fx:id="wsola7o8FilterButton" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" text="×⅞" toggleGroup="$wsolaToggleGroup" />
+                        <ToggleButton fx:id="wsola1o1FilterButton" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" selected="true" text="×1" toggleGroup="$wsolaToggleGroup" />
+                        <ToggleButton fx:id="wsola5o4FilterButton" layoutX="344.0" layoutY="13.0" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" text="×1.25" toggleGroup="$wsolaToggleGroup" />
+                        <ToggleButton fx:id="wsola3o2FilterButton" mnemonicParsing="false" onMouseReleased="#toggleWsolaFilterButton" text="×1.5" toggleGroup="$wsolaToggleGroup" />
+                        <Label fx:id="labelVolumeMaster" prefHeight="10.0" prefWidth="10.0">
+                           <tooltip>
+                              <Tooltip text="%command_volume_master" />
+                           </tooltip>
+                        </Label>
+                        <Slider fx:id="sliderMasterVolume" value="100.0" />
+                     </items>
+                  </ToolBar>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <SplitPane fx:id="splitSpec" dividerPositions="0.75">
+               <items>
+                  <SplitPane dividerPositions="0.5" maxWidth="1.7976931348623157E308" orientation="VERTICAL">
+                    <items>
+                        <VBox>
+                           <children>
+                              <GridPane prefHeight="50.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                    <ColumnConstraints halignment="RIGHT" minWidth="10.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <ToolBar prefHeight="50.0" prefWidth="200.0" GridPane.vgrow="ALWAYS">
+                                       <items>
+                                          <Label fx:id="labelVolumeAudio" prefHeight="10.0" prefWidth="10.0">
+                                             <tooltip>
+                                                <Tooltip text="%command_volume_audio" />
+                                             </tooltip>
+                                          </Label>
+                                          <Slider fx:id="sliderAudioVolume" minorTickCount="0" prefHeight="15.0" value="100.0">
+                                             <tooltip>
+                                                <Tooltip text="%command_volume_audio" />
+                                             </tooltip>
+                                          </Slider>
+                                          <ToggleButton fx:id="heatRangeButton" mnemonicParsing="false" onMouseReleased="#toggleColorRange" selected="true" text="%view_heatmap">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="colorRangeGroup" />
+                                             </toggleGroup>
+                                          </ToggleButton>
+                                          <ToggleButton fx:id="grayRangeButton" mnemonicParsing="false" onMouseReleased="#toggleColorRange" text="%view_grayscale" toggleGroup="$colorRangeGroup" />
+                                          <ToggleButton fx:id="loopStartingButton" mnemonicParsing="false" onMouseReleased="#toggleLoopStarting">
+                                             <tooltip>
+                                                <Tooltip fx:id="loopStartingTooltip" text="%command_place_loop_starting_point" />
+                                             </tooltip>
+                                          </ToggleButton>
+                                          <ToggleButton fx:id="loopTerminalButton" mnemonicParsing="false" onMouseReleased="#toggleLoopTerminal">
+                                             <tooltip>
+                                                <Tooltip fx:id="loopTerminalTooltip" text="%command_place_loop_terminal_point" />
+                                             </tooltip>
+                                          </ToggleButton>
+                                       </items>
+                                    </ToolBar>
+                                    <ToolBar prefHeight="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                                       <items>
+                                          <Label fx:id="labelZoomOut">
+                                             <tooltip>
+                                                <Tooltip text="%command_time_zoom" />
+                                             </tooltip>
+                                          </Label>
+                                          <VBox alignment="TOP_CENTER">
+                                             <children>
+                                                <Slider fx:id="sliderZoom" blockIncrement="12.5" majorTickUnit="87.5" max="400.0" min="12.5" minorTickCount="6" prefWidth="150.0" showTickMarks="true" snapToTicks="true" value="100.0">
+                                                   <tooltip>
+                                                      <Tooltip text="%command_time_zoom" />
+                                                   </tooltip>
+                                                </Slider>
+                                                <Label fx:id="labelZoomPercent" text="100%" />
+                                             </children>
+                                          </VBox>
+                                          <Label fx:id="labelZoomIn">
+                                             <tooltip>
+                                                <Tooltip text="%command_time_zoom" />
+                                             </tooltip>
+                                          </Label>
+                                       </items>
+                                    </ToolBar>
+                                 </children>
+                              </GridPane>
+                              <HBox VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <AnchorPane fx:id="toneMatrixContainer" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <SpectrogramViewer fx:id="spectrogramViewer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                          <BeatBar fx:id="beatBar" minHeight="20.0" prefHeight="50.0" />
+                                          <ToolBar prefHeight="20.0" prefWidth="200.0">
+                                             <items>
+                                                <Label fx:id="labelVolumeBeat" />
+                                                <Slider fx:id="sliderBeatVolume">
+                                                <tooltip>
+					                               <Tooltip text="%command_click_sound" />
+					                            </tooltip>
+                                                </Slider>
+                                                <Label text="%command_measure" />
+                                                <Spinner fx:id="spinnerMeasure" editable="true" prefWidth="80.0" />
+                                                <Label fx:id="labelStepLeft" />
+                                                <ComboBox fx:id="comboMilliStep">
+                                                	<tooltip>
+					                              		<Tooltip text="%command_step_size" />
+					                           		</tooltip>
+                                                </ComboBox>
+                                                <Label fx:id="labelStepRight" />
+                                                <Label text="%command_offset">
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding></Label>
+                                                <Spinner fx:id="spinnerOffset" editable="true" prefWidth="80.0" />
+                                                <Label text="%command_bpm">
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding></Label>
+                                                <Spinner fx:id="spinnerBeats" editable="true" prefWidth="80.0" />
+                                                <Button fx:id="addBarLineButton" mnemonicParsing="false">
+                                                	<tooltip>
+					                              		<Tooltip text="%command_add_bar_line" />
+					                           		</tooltip>
+                                                </Button>
+                                                <Button fx:id="removeBarLineButton" mnemonicParsing="false">
+                                                	<tooltip>
+					                              		<Tooltip text="%command_remove_bar_line" />
+					                           		</tooltip>
+                                                </Button>
+                                             </items></ToolBar>
+                                       </children>
+                                    </VBox>
+                                    <ScrollBar fx:id="spectrogramScrollBar" max="110.0" orientation="VERTICAL" visibleAmount="100.0" />
+                                 </children>
+                              </HBox>
+                              <HBox prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <ToolBar prefHeight="20.0" prefWidth="200.0">
+                                 <items>
+                                    <Label fx:id="labelVolumeTab" prefHeight="10.0" prefWidth="10.0">
+                                       <tooltip>
+                                          <Tooltip text="%command_volume_tab_synthesizer" />
+                                       </tooltip>
+                                    </Label>
+                                    <Slider fx:id="sliderTabVolume" value="100.0">
+                                       <tooltip>
+                                          <Tooltip text="%command_volume_tab_synthesizer" />
+                                       </tooltip>
+                                    </Slider>
+                                    <Button fx:id="barBackwardButton" disable="true" mnemonicParsing="false">
+                                    	<tooltip>
+					                    	<Tooltip text="%command_previous_barline" />
+					                    </tooltip>
+                                    </Button>
+                                    <Button fx:id="measureBackwardButton" mnemonicParsing="false">
+                                    	<tooltip>
+					                    	<Tooltip text="%command_previous_measure" />
+					                    </tooltip>
+                                    </Button>
+                                    <Button fx:id="beatBackwardButton" mnemonicParsing="false">
+                                    	<tooltip>
+					                    	<Tooltip text="%command_previous_beat" />
+					                    </tooltip>
+                                    </Button>
+                                    <Button fx:id="beatForwardButton" mnemonicParsing="false">
+                                    	<tooltip>
+					                    	<Tooltip text="%command_next_beat" />
+					                    </tooltip>
+                                    </Button>
+                                    <Button fx:id="measureForwardButton" mnemonicParsing="false">
+                                    	<tooltip>
+					                    	<Tooltip text="%command_next_measure" />
+					                    </tooltip>
+                                    </Button>
+                                    <Button fx:id="barForwardButton" disable="true" mnemonicParsing="false">
+                                    	<tooltip>
+					                    	<Tooltip text="%command_next_barline" />
+					                    </tooltip>
+                                    </Button>
+                                 </items>
+                              </ToolBar>
+                              <ScrollPane fx:id="tabScrollPane" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                                 <content>
+                                    <TabTimeLine fx:id="tabTimeLine" />
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </VBox>
+                    </items>
+                  </SplitPane>
+                  <SplitPane dividerPositions="0.5231788079470199" orientation="VERTICAL">
+                     <items>
+                        <StackPane minWidth="250.0">
+                           <children>
+                              <GridPane styleClass="spectrumBack">
+                                 <columnConstraints>
+                                    <ColumnConstraints />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label alignment="CENTER" blendMode="ADD" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="%audio_left" textFill="#696e72" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+                                 </children>
+                              </GridPane>
+                              <Spectrum fx:id="spectrumLeft" />
+                           </children>
+                        </StackPane>
+                        <StackPane>
+                           <children>
+                              <GridPane styleClass="spectrumBack">
+                                 <columnConstraints>
+                                    <ColumnConstraints minWidth="10.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label alignment="CENTER" blendMode="ADD" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="%audio_right" textFill="#696e72" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+                                 </children>
+                              </GridPane>
+                              <Spectrum fx:id="spectrumRight" />
+                           </children>
+                        </StackPane>
+                     </items>
+                  </SplitPane>
+               </items>
+            </SplitPane>
+         </center>
+         <bottom>
+            <VBox fx:id="paneBottom" BorderPane.alignment="CENTER">
+               <children>
+                  <WaveScroll fx:id="waveScroll" prefHeight="50.0" />
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="250.0" />
+                      <ColumnConstraints halignment="RIGHT" maxWidth="250.0" minWidth="-Infinity" prefWidth="200.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ToolBar prefHeight="40.0" prefWidth="200.0">
+                           <items>
+                              <Label fx:id="labelProgress" text="%progress_on_the_fly" />
+                              <HBox fx:id="threadBox" alignment="CENTER_LEFT" spacing="1.0" />
+                              <ProgressBar fx:id="progressOnTheFly" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" progress="0.0" />
+                           </items>
+                        </ToolBar>
+                        <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <items>
+                              <Label fx:id="labelDuration" style="-fx-font-weight: bold;" text="/ 00:00:00:000" />
+                              <Label fx:id="labelPosition" style="-fx-font-weight: bold;" text="00:00:00:000" />
+                           </items>
+                        </ToolBar>
+                        <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </bottom>
+         <left>
+            <VBox>
+               <children>
+                  <ToolBar orientation="VERTICAL" VBox.vgrow="ALWAYS">
+                    <items>
+                        <VBox>
+                           <children>
+                              <Label text="%audio_pitch">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <Slider fx:id="pitchSlider" blockIncrement="1.0" majorTickUnit="1.0" max="24.0" min="-24.0" minorTickCount="0" orientation="VERTICAL" prefHeight="350.0" showTickLabels="true" showTickMarks="true" snapToPixel="false" snapToTicks="true" />
+                              <Label text="%audio_semitones" />
+                           </children>
+                        </VBox>
+                    </items>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </ToolBar>
+               </children>
+            </VBox>
+         </left>
+         <right>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <ToolBar orientation="VERTICAL" VBox.vgrow="ALWAYS">
+                     <items>
+                        <ToggleButton fx:id="maxButton" mnemonicParsing="false" onMouseReleased="#toggleMaxButton">
+                        	<tooltip>
+                              <Tooltip text="%command_normalize_max" />
+                           	</tooltip>
+                        </ToggleButton>
+                     </items></ToolBar>
+               </children>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</VBox>

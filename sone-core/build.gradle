@@ -1,0 +1,70 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.8.0-beta2'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.0-alpha4'
+	compile group: 'com.googlecode.soundlibs', name: 'mp3spi', version: '1.9.5.4'
+	//compile group: 'com.googlecode.soundlibs', name: 'vorbisspi', version: '1.0.3.3'
+	compile group: 'org.jflac', name: 'jflac-codec', version: '1.5.2'
+    compile group: 'net.sourceforge.jaadec', name: 'jaad', version: '0.8.5'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+    compile files('libs/TarsosTranscoder-1.2.jar')
+    
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile group: 'org.apache.commons', name: 'commons-math3', version: '3.5'
+    
+}
+
+ext.moduleName = 'kim.kohlhaas.sone.core'
+
+compileJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+            '--module-path', classpath.asPath
+        ]
+        classpath = files()  
+    }
+}
+
+compileTestJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+            '--module-path', classpath.asPath, 
+            '--add-modules', 'junit',  
+            '--add-reads', "$moduleName=junit", 
+            '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath, 
+        ]
+        classpath = files()
+    }
+}
+
+test {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        jvmArgs = [
+            '--module-path', classpath.asPath, 
+            '--add-modules', 'ALL-MODULE-PATH', 
+            '--add-reads', "$moduleName=junit", 
+            '--patch-module', "$moduleName=" + files(sourceSets.test.java.outputDir).asPath, 
+        ]
+        classpath = files()
+    }
+}

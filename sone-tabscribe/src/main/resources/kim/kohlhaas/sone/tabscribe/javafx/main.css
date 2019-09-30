@@ -1,0 +1,195 @@
+.root {
+    -fx-base: #3c3f41;
+    -fx-focus-color: #98bcc0;
+    -fx-font-size:9pt;
+    -fx-background: #3c3f41;
+    -icons-color: #dddddd;
+}
+
+.scroll-bar:vertical .thumb {
+ -fx-base: #696e72ff;
+ 
+ }
+ 
+.scroll-bar:vertical .increment-arrow {
+ -fx-background-color: #696e72;
+ -fx-shape: "M 0 0 L 4 8 L 8 0 Z";
+ -fx-padding: 0.25em;
+ -fx-rotate: 0;
+}
+
+.scroll-bar:vertical .decrement-arrow {
+ -fx-background-color: #696e72;
+ -fx-shape: "M 0 0 L 4 8 L 8 0 Z";
+ -fx-padding: 0.25em;
+ -fx-rotate: -180;
+}
+
+.glyph-icon{
+    -fx-fill: -icons-color;
+    /* -fx-effect: innershadow(two-pass-box, #999999, 3, 0, 2, 2); */
+}
+
+.loop-icon-active {
+    -icons-color: #00ff00;
+}
+
+WaveScroll .glyph-icon {
+    -icons-color : #00ff00;
+    -fx-effect: dropshadow(gaussian, #3c3f41, 5, 0, 1, 1);
+}
+
+.slider .axis {
+    -fx-tick-label-fill: #dddddd;
+}
+
+.label {
+    -fx-text-fill: #dddddd;
+}
+
+.spectrumBack {
+    -fx-background-color: linear-gradient(#4b4f52ff, #3c3f41);
+}
+
+.spectrumBack .label {
+    -fx-text-fill: #909890;
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Carlito';
+    -fx-effect: dropshadow(gaussian, #3c3f41, 5, 0, 1, 1);
+}
+
+TabTimeLine {
+	-fx-background-color:#9a9ea1;
+}
+
+TabTimeLine .editable-label:hover {
+	-fx-text-fill: #eeeeee;
+	-fx-background-color: #666666;
+	-fx-effect: dropshadow(gaussian, #3c3f41, 5, 0, 1, 1);
+}
+
+TabTimeLine .tab-string-line:hover, .tab-string-line-activate, .tab-string-line-activate:hover  {
+	-fx-stroke: #eeeeee;
+	-fx-effect: dropshadow(gaussian, #3c3f41, 5, 0.2, 1, 1);
+}
+
+TabTimeLine .tab-string-line {
+	-fx-stroke: #333333;
+	-fx-effect: none;
+}
+
+TabTimeLine .string-line-label {
+	-fx-stroke: #dddddd;
+	-fx-effect: none;
+}
+
+
+TabTimeLine .tab-track-statement {
+	-fx-text-fill: #000000;
+	-fx-background-color:#9a9ea1;
+	-fx-padding: -3px 0px -3px 0px;
+}
+
+TabTimeLine .tab-track-statement-beat {
+	-fx-text-fill: #ffffff;
+	-fx-background-color:#98bcc0ff;
+	-fx-padding: -3px 0px -3px 0px;
+}
+
+TabTimeLine .lyrics-track {
+	-fx-text-fill: #000000;
+	-fx-background-color: #868c90;
+}
+
+TabTimeLine .lyrics-track-head {
+
+	-fx-padding: -3px 0px -3px 0px;
+}
+
+TabTimeLine .lyrics-track-statement {
+	-fx-text-fill: #000000;
+	-fx-padding: -3px 0px -3px 0px;
+}
+
+TabTimeLine .tab-string-label {
+	-fx-text-fill: #000000;
+	-fx-background-color: #9a9ea1;
+}
+
+TabTimeLine .position-line {
+    -fx-stroke: #98bcc0;
+}
+
+BeatBar .position-line {
+    -fx-stroke: #ffffff;
+}
+
+ChordBar .chord-label {
+    -fx-text-fill: #000000;
+    -fx-font-size: 14pt;
+  	-fx-font-weight: bold;
+    -fx-font-family: 'Carlito'
+}
+
+.context-menu .chord-menu-item {
+    -fx-font-size: 14pt;
+    -fx-font-family: 'Carlito'
+}
+
+Spectrum {
+    -custom-stroke-peak: #FF1493;
+    -custom-stroke-base: #1E90FF;
+}
+
+Spectrum .frequency-line {
+    -fx-stroke: #98bcc066;
+}
+
+SpectrogramChannel {
+    -fx-background: #000000;
+}
+
+SpectrogramTimeLine {
+    -fx-background-color: #3c3f41;
+}
+
+SpectrogramTimeLine .label {
+    -fx-text-fill: #858b8fff;
+
+}
+
+SpectrogramTimeLine .glyph-icon {
+    -icons-color : #00ff00;
+    -fx-effect: dropshadow(gaussian, #000000, 5, 0, 1, 1);
+}
+
+SpectrogramTimeLine > Line {
+    -fx-stroke: #858b8fff;
+
+}
+
+SpectrogramViewer .loop-line {
+    -fx-stroke: #00ff00;
+}
+
+SpectrogramViewer .position-line {
+    -fx-stroke: #98bcc0;
+}
+
+SpectrogramViewer .frequency-line {
+    -fx-stroke: #98bcc066;
+}
+
+.toneTooltip {    
+    -fx-font-size: 14;
+}
+
+WaveScroll {
+    -custom-past-peak: #00CED1;
+    -custom-base-peak: #585c5f; 
+    -custom-past-rms: #AFEEEE;
+    -custom-base-rms: #767c80;
+    -custom-past-back: #474a4d;
+    -custom-base-back: #3c3f41; 
+}

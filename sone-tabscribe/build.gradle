@@ -1,0 +1,108 @@
+buildscript {
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.2'
+        classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+		jcenter()
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.google.osdetector'
+
+sourceCompatibility=11
+targetCompatibility=11
+mainClassName = 'kim.kohlhaas.sone.tabscribe.javafx.Main'
+
+ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+
+
+dependencies {
+    compile project(':sone-javafx')
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.8.0-beta2'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.0-alpha4'
+    compile "org.openjfx:javafx-base:11.0.1:$platform"
+    compile "org.openjfx:javafx-graphics:11.0.1:$platform"
+    compile "org.openjfx:javafx-controls:11.0.1:$platform"
+    compile "org.openjfx:javafx-fxml:11.0.1:$platform"
+    compile "org.openjfx:javafx-swing:11.0.1:$platform"
+}
+
+
+ext.moduleName = 'kim.kohlhaas.sone.tabscribe'
+
+compileJava {
+	inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}
+
+run {
+	inputs.property("moduleName", moduleName)
+    doFirst {
+        jvmArgs = [
+                '--module-path', classpath.asPath,
+                '--patch-module', "$moduleName=" + files(sourceSets.main.output.resourcesDir).asPath,
+                '--module', "$moduleName/$mainClassName"
+        ]
+        classpath = files()
+    }
+}
+
+// artifact name for uploading shadow jar
+shadowJar {
+   baseName = 'sone-tabscribe-all'
+   classifier = null
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+        
+        // shadow jar overwrites standard jar when publishing directly to maven local due to the changed shadpw name
+        // is ignored 
+        shadow(MavenPublication) { publication -> 
+            project.shadow.component(publication)
+        }
+    }
+}
+
+// ----------------
+// TEST: Linker-Automatisierung
+
+task linkerTrial {
+	ext.listJars = {
+		println "All Jars"
+	}
+
+}
+
+/*linkerTrial << {
+	listJars()
+}*/
+
+
+
+

@@ -1,0 +1,8 @@
+= TabScribe
+
+== Logo
+
+License https://creativecommons.org/licenses/by/4.0/[CC-BY] Nick Humphreys http://nick-humphreys.com 
+
+https://thenounproject.com/nicky.humphreys/
+

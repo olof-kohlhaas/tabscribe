@@ -1,0 +1,5 @@
+include ':sone-core'
+include ':sone-javafx'
+include ':sone-tabscribe'
+
+rootProject.name = 'sone'

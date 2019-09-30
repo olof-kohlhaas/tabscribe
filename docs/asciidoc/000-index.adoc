@@ -1,0 +1,79 @@
+== linker ==
+
+vollständigkeit per main run testen:
+
+[source, dos]
+----
+"c:\Program Files\Java\jdk-11.0.1\bin\java.exe" --module-path "D:\Programme\javafx-sdk-11\lib;C:\Program Files\Java\jdk-11.0.1\jmods;D:\Synced\Encrypted\Projekte\tabscribe\linker\modules;D:\Synced\Encrypted\Projekte\tabscribe\linker\migrated;D:\Synced\Encrypted\Projekte\tabscribe\linker\automatic"  -m kim.kohlhaas.sone.tabscribe/kim.kohlhaas.sone.tabscribe.javafx.Main
+----
+
+
+package erstellen:
+
+[source, dos]
+----
+"C:\Program Files\Java\jdk-11.0.1\bin\jlink.exe" --module-path "D:\Programme\javafx-jmods-11;C:\Program Files\Java\jdk-11.0.1\jmods;D:\Synced\Encrypted\Projekte\tabscribe\linker\modules;D:\Synced\Encrypted\Projekte\tabscribe\linker\automatic;D:\Synced\Encrypted\Projekte\tabscribe\linker\migrated" --add-modules kim.kohlhaas.sone.tabscribe --launcher tabscribe=kim.kohlhaas.sone.tabscribe/kim.kohlhaas.sone.tabscribe.javafx.Main --output="D:\Synced\Encrypted\Projekte\tabscribe\linker\exec"
+----
+
+generate module-info
+
+[source, dos]
+----
+"C:\Program Files\Java\jdk-11.0.1\bin\jdeps.exe" --module-path "D:\Programme\javafx-sdk-11\lib;C:\Program Files\Java\jdk-11.0.1\jmods;D:\tmp\test\modules;D:\tmp\test\automatic;D:\tmp\test\migrated" --generate-module-info "D:\tmp\test\deps" "D:\tmp\test\automatic"
+----
+
+In der module-info.java von com.helger.commons ergänzen: 
+
+[source, java]
+----
+uses com.helger.commons.hashcode.IHashCodeImplementationRegistrarSPI;
+----
+
+
+
+automatic module entpacken
+
+[source, dos]
+----
+cd D:\tmp\test\sources\jtransforms
+"C:\Program Files\Java\jdk-11.0.1\bin\jar.exe" -xf D:\tmp\test\automatic\JTransforms-3.1.jar
+----
+
+module-info kompilieren
+
+[source, dos]
+----
+C:\Program Files\Java\jdk-11.0.1\bin\javac.exe" -p "C:\Program Files\Java\jdk-11.0.1\jmods;D:\Synced\Encrypted\Projekte\tabscribe\linker\automatic;D:\Synced\Encrypted\Projekte\tabscribe\linker\modules;D:\Synced\Encrypted\Projekte\tabscribe\linker\migrated" -d "D:\Synced\Encrypted\Projekte\tabscribe\linker\sources\phcommons" "D:\Synced\Encrypted\Projekte\tabscribe\linker\deps\com.helger.commons\module-info.java"
+----
+
+automatic module updaten
+
+[source, dos]
+----
+cd D:\tmp\test\sources\jtransforms\
+"C:\Program Files\Java\jdk-11.0.1\bin\jar.exe" -uf "D:\tmp\test\automatic\JTransforms-3.1.jar" module-info.class
+----
+
+module ausführen:
+[source, dos]
+----
+"C:\Program Files\Java\jdk-11.0.1\bin\java.exe" --module-path "D:\Programme\javafx-sdk-11\lib;C:\Program Files\Java\jdk-11.0.1\jmods;D:\Synced\Encrypted\Projekte\tabscribe\linker\modules;D:\Synced\Encrypted\Projekte\tabscribe\linker\automatic;D:\Synced\Encrypted\Projekte\tabscribe\linker\migrated"  -m kim.kohlhaas.sone.tabscribe/kim.kohlhaas.sone.tabscribe.javafx.Main
+----
+
+deps-graph zeichnen:
+[source, dos]
+----
+"c:\Program Files\Java\jdk-11.0.1\bin\jdeps.exe" -dotoutput graphs --module-path "D:\Synced\Encrypted\Projekte\tabscribe\linker\repo;C:\Program Files\Java\jdk-11.0.1\jmods;D:\Synced\Encrypted\Projekte\tabscribe\linker\modules;D:\Synced\Encrypted\Projekte\tabscribe\linker\migrated"  modules\sone-tabscribe-0.3.0-SNAPSHOT.jar
+----
+
+graphviz:
+[source, dos]
+----
+"c:\Program Files (x86)\Graphviz2.38\bin\dot.exe" -Tpng -Gdpi=300 summary.dot > summary.png
+----
+
+dot to gm for yEd
+[source, dos]
+----
+gv2gml -osummary.gml summary.dot
+----

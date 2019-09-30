@@ -1,3 +1,28 @@
+# Gradle:
+.gradle
+build/
+
+# Visual-Studio-Code
+.vscode
+
+# Eclipse:
+.classpath
+.checkstyle
+.project
+.settings
+.metadata
+.recommenders
+RemoteSystemsTempFiles/
+Servers/
+
+# IntelliJ:
+out/
+.idea/
+/.DS_Store
+
+# FFmpeg tmp files
+*decoder_log.txt
+
 # Compiled class file
 *.class
 
