@@ -7,10 +7,6 @@ module kim.kohlhaas.sone.core {
 	// Automatic Modules:
 	requires commons.lang3;
 	requires org.slf4j;
-	requires tritonus.share;
-	requires mp3spi;
-	requires jflac.codec;
-	requires jaad;
 	requires TarsosTranscoder;
 	
 	exports kim.kohlhaas.sone;
