@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 import kim.kohlhaas.sone.harmony.Temperament;
-import kim.kohlhaas.sone.harmony.Tone;
+import kim.kohlhaas.sone.harmony.GenericTone;
 import kim.kohlhaas.sone.harmony.TwelveToneEqualTemperament;
 
 public class TestTwelveToneEqualTemperament extends TestCase {
@@ -24,10 +24,10 @@ public class TestTwelveToneEqualTemperament extends TestCase {
     public void testStandardPitch() {
         int midiKey = 69;
         assertEquals("Missing pitch standard A440 at MIDI tone 69.", 
-                Tone.Name.A, 
+        		GenericTone.Name.A, 
                 temperament.getTone(midiKey).getName());
         assertEquals("Semitone on pitch standard A440 is not set to NONE.", 
-                Tone.Semitone.NONE, 
+        		GenericTone.Semitone.NONE, 
                 temperament.getTone(midiKey).getSemitone());
         assertEquals("Pitch standard A440 doesn't equal the correct frequency.",
                 440.000, 
@@ -41,10 +41,10 @@ public class TestTwelveToneEqualTemperament extends TestCase {
     public void testMiddleC() {
         int midiKey = 60;
         assertEquals("Missing middle C at MIDI tone 60.", 
-                Tone.Name.C, 
+        		GenericTone.Name.C, 
                 temperament.getTone(midiKey).getName());
         assertEquals("Semitone on middle C is not set to NONE.", 
-                Tone.Semitone.NONE, 
+        		GenericTone.Semitone.NONE, 
                 temperament.getTone(midiKey).getSemitone());
         assertEquals("Middle C doesn't equal the correct frequency.",
                 261.626, 
@@ -58,10 +58,10 @@ public class TestTwelveToneEqualTemperament extends TestCase {
     public void testFirstKey88Piano() {
         int midiKey = 21;
         assertEquals("Wrong tone at first key of 88-key piano at MIDI tone 21.", 
-                Tone.Name.A, 
+        		GenericTone.Name.A, 
                 temperament.getTone(midiKey).getName());
         assertEquals("Semitone on first key of 88-key piano is not set to NONE.", 
-                Tone.Semitone.NONE, 
+        		GenericTone.Semitone.NONE, 
                 temperament.getTone(midiKey).getSemitone());
         assertEquals("First key of 88-key piano doesn't equal the correct frequency.",
                 27.500, 
@@ -75,10 +75,10 @@ public class TestTwelveToneEqualTemperament extends TestCase {
     public void testLastKey88Piano() {
         int midiKey = 108;
         assertEquals("Wrong tone at last key of 88-key piano at MIDI tone 108.", 
-                Tone.Name.C, 
+        		GenericTone.Name.C, 
                 temperament.getTone(midiKey).getName());
         assertEquals("Semitone on last key of 88-key piano is not set to NONE.", 
-                Tone.Semitone.NONE, 
+        		GenericTone.Semitone.NONE, 
                 temperament.getTone(midiKey).getSemitone());
         assertEquals("Last key of 88-key piano doesn't equal the correct frequency.",
                 4186.01, 
@@ -92,10 +92,10 @@ public class TestTwelveToneEqualTemperament extends TestCase {
     public void testFirstMIDITone() {
         int midiKey = 0;
         assertEquals("Wrong first MIDI tone.", 
-                Tone.Name.C, 
+        		GenericTone.Name.C, 
                 temperament.getTone(midiKey).getName());
         assertEquals("Semitone on first MIDI tone is not set to NONE.", 
-                Tone.Semitone.NONE, 
+        		GenericTone.Semitone.NONE, 
                 temperament.getTone(midiKey).getSemitone());
         assertEquals("First MIDI tone doesn't equal the correct frequency.",
                 8.176, 
@@ -109,10 +109,10 @@ public class TestTwelveToneEqualTemperament extends TestCase {
     public void testLastMIDITone() {
         int midiKey = 127;
         assertEquals("Wrong last MIDI tone.", 
-                Tone.Name.G, 
+        		GenericTone.Name.G, 
                 temperament.getTone(midiKey).getName());
         assertEquals("Semitone on last MIDI tone is not set to NONE.", 
-                Tone.Semitone.NONE, 
+        		GenericTone.Semitone.NONE, 
                 temperament.getTone(midiKey).getSemitone());
         assertEquals("Last MIDI tone doesn't equal the correct frequency.",
                 12543.9, 
