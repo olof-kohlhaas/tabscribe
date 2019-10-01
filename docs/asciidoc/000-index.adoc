@@ -1,6 +1,6 @@
 == linker ==
 
-vollständigkeit per main run testen:
+Test integrity by running main:
 
 [source, dos]
 ----
@@ -8,21 +8,21 @@ vollständigkeit per main run testen:
 ----
 
 
-package erstellen:
+Create package:
 
 [source, dos]
 ----
 "C:\Program Files\Java\jdk-11.0.1\bin\jlink.exe" --module-path "D:\Programme\javafx-jmods-11;C:\Program Files\Java\jdk-11.0.1\jmods;D:\Synced\Encrypted\Projekte\tabscribe\linker\modules;D:\Synced\Encrypted\Projekte\tabscribe\linker\automatic;D:\Synced\Encrypted\Projekte\tabscribe\linker\migrated" --add-modules kim.kohlhaas.sone.tabscribe --launcher tabscribe=kim.kohlhaas.sone.tabscribe/kim.kohlhaas.sone.tabscribe.javafx.Main --output="D:\Synced\Encrypted\Projekte\tabscribe\linker\exec"
 ----
 
-generate module-info
+Generate module-info:
 
 [source, dos]
 ----
 "C:\Program Files\Java\jdk-11.0.1\bin\jdeps.exe" --module-path "D:\Programme\javafx-sdk-11\lib;C:\Program Files\Java\jdk-11.0.1\jmods;D:\tmp\test\modules;D:\tmp\test\automatic;D:\tmp\test\migrated" --generate-module-info "D:\tmp\test\deps" "D:\tmp\test\automatic"
 ----
 
-In der module-info.java von com.helger.commons ergänzen: 
+Augment module-info.java of com.helger.commons: 
 
 [source, java]
 ----
@@ -30,8 +30,7 @@ uses com.helger.commons.hashcode.IHashCodeImplementationRegistrarSPI;
 ----
 
 
-
-automatic module entpacken
+Unzip automatic module:
 
 [source, dos]
 ----
@@ -39,14 +38,14 @@ cd D:\tmp\test\sources\jtransforms
 "C:\Program Files\Java\jdk-11.0.1\bin\jar.exe" -xf D:\tmp\test\automatic\JTransforms-3.1.jar
 ----
 
-module-info kompilieren
+Compile module-info:
 
 [source, dos]
 ----
 C:\Program Files\Java\jdk-11.0.1\bin\javac.exe" -p "C:\Program Files\Java\jdk-11.0.1\jmods;D:\Synced\Encrypted\Projekte\tabscribe\linker\automatic;D:\Synced\Encrypted\Projekte\tabscribe\linker\modules;D:\Synced\Encrypted\Projekte\tabscribe\linker\migrated" -d "D:\Synced\Encrypted\Projekte\tabscribe\linker\sources\phcommons" "D:\Synced\Encrypted\Projekte\tabscribe\linker\deps\com.helger.commons\module-info.java"
 ----
 
-automatic module updaten
+Update automatic module:
 
 [source, dos]
 ----
@@ -54,13 +53,13 @@ cd D:\tmp\test\sources\jtransforms\
 "C:\Program Files\Java\jdk-11.0.1\bin\jar.exe" -uf "D:\tmp\test\automatic\JTransforms-3.1.jar" module-info.class
 ----
 
-module ausführen:
+Execute module:
 [source, dos]
 ----
 "C:\Program Files\Java\jdk-11.0.1\bin\java.exe" --module-path "D:\Programme\javafx-sdk-11\lib;C:\Program Files\Java\jdk-11.0.1\jmods;D:\Synced\Encrypted\Projekte\tabscribe\linker\modules;D:\Synced\Encrypted\Projekte\tabscribe\linker\automatic;D:\Synced\Encrypted\Projekte\tabscribe\linker\migrated"  -m kim.kohlhaas.sone.tabscribe/kim.kohlhaas.sone.tabscribe.javafx.Main
 ----
 
-deps-graph zeichnen:
+Draw deps-graph:
 [source, dos]
 ----
 "c:\Program Files\Java\jdk-11.0.1\bin\jdeps.exe" -dotoutput graphs --module-path "D:\Synced\Encrypted\Projekte\tabscribe\linker\repo;C:\Program Files\Java\jdk-11.0.1\jmods;D:\Synced\Encrypted\Projekte\tabscribe\linker\modules;D:\Synced\Encrypted\Projekte\tabscribe\linker\migrated"  modules\sone-tabscribe-0.3.0-SNAPSHOT.jar
