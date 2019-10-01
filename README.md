@@ -4,7 +4,7 @@
 
 TabScribe is a tool for transcribing any music track to guitar tabs.
 
-[Demo video on YouTube](https://youtu.be/BGP1hx7KGBg):
+:tv: [Demo video on YouTube](https://youtu.be/BGP1hx7KGBg):
 
 [![Demo video on YouTube](https://olof-kohlhaas.github.io/images/tabgif.gif)](https://youtu.be/BGP1hx7KGBg)
 
